@@ -144,7 +144,7 @@ export default function App() {
       money(total);
 
     navigator.clipboard.writeText(text);
-    window.open('https://zalo.me/' + ZALO_PHONE, '_blank');
+    window.location.href = "https://zalo.me/" + ZALO_PHONE;
     alert('Đã copy đơn hàng. Hãy dán vào Zalo và gửi cho quán nhé!');
   }
 
