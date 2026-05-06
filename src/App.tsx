@@ -128,24 +128,28 @@ export default function App() {
 
   function sendZalo() {
     const text =
-      'Xin chào Gánh Tạp Hoá Chú Hiếu, tôi muốn đặt món:\n\n' +
+      "Xin chào Gánh Tạp Hoá Chú Hiếu, tôi muốn đặt món:\n\n" +
       cart
         .map(
           (item) =>
-            '- ' +
+            "- " +
             item.name +
-            ' x' +
+            " x" +
             item.qty +
-            ': ' +
+            " = " +
             money(item.price * item.qty)
         )
-        .join('\n') +
-      '\n\nTổng cộng: ' +
+        .join("\n") +
+      "\n\nTổng cộng: " +
       money(total);
-
+  
     navigator.clipboard.writeText(text);
-    window.location.href = "https://zalo.me/" + ZALO_PHONE;
-    alert('Đã copy đơn hàng. Hãy dán vào Zalo và gửi cho quán nhé!');
+  
+    alert(
+      "Đã copy đơn hàng. Bấm OK để mở Zalo, sau đó dán đơn hàng vào chat."
+    );
+  
+    window.location.href = "https://zalo.me/0766666133";
   }
 
   return (
