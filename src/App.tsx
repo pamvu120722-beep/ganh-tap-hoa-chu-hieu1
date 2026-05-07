@@ -249,9 +249,15 @@ export default function App() {
   </p>
 </div>
 
-                <button style={s.zalo} onClick={sendZalo}>
-                  Copy đơn & mở Zalo
-                </button>
+<a
+  href="https://zalo.me/0766666133"
+  target="_blank"
+  rel="noreferrer"
+  onClick={sendZalo}
+  style={s.zalo}
+>
+  Copy đơn & mở Zalo
+</a>
               </div>
             )}
           </div>
