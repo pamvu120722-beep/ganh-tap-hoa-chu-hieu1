@@ -85,6 +85,7 @@ export default function App() {
   const [category, setCategory] = useState('Tất cả');
   const [cart, setCart] = useState([]);
   const [openCart, setOpenCart] = useState(false);
+  const [notice, setNotice] = useState("");
 
   const categories = ['Tất cả', 'Cơm', 'Canh', 'Bún', 'Nước'];
 
@@ -100,18 +101,27 @@ export default function App() {
   function addToCart(food) {
     setCart((old) => {
       const found = old.find((item) => item.id === food.id);
-
+  
       if (found) {
         return old.map((item) =>
-          item.id === food.id ? { ...item, qty: item.qty + 1 } : item
+          item.id === food.id
+            ? { ...item, qty: item.qty + 1 }
+            : item
         );
       }
-
+  
       return [...old, { ...food, qty: 1 }];
     });
-
-    setOpenCart(true);
+  
+    setNotice(food.name + " đã thêm vào giỏ hàng");
+  
+    setTimeout(() => {
+      setNotice("");
+    }, 2000);
+  
   }
+
+    
 
   function changeQty(id, amount) {
     setCart((old) =>
@@ -202,6 +212,11 @@ export default function App() {
         ))}
       </main>
 
+      {notice && (
+  <div style={s.notice}>
+    {notice}
+  </div>
+)}
       {openCart && (
         <div style={s.overlay}>
           <div style={s.cart}>
@@ -506,4 +521,17 @@ const s = {
     fontSize: 14,
     lineHeight: 1.6,
   },
+  notice: {
+    position: "fixed",
+    bottom: 24,
+    left: "50%",
+    transform: "translateX(-50%)",
+    background: "#111",
+    color: "#fff",
+    padding: "12px 18px",
+    borderRadius: 999,
+    zIndex: 9999,
+    fontWeight: "bold",
+  },
+  
 };
