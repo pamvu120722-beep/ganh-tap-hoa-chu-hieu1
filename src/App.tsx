@@ -10,7 +10,7 @@ const foods = [
     price: 45000,
     category: 'Cơm',
     image:
-      'https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1200&auto=format&fit=crop',
+      'https://cdn2.fptshop.com.vn/unsafe/800x0/ga_xao_hanh_tay_10_0d26f590a4.jpg',
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ const foods = [
     price: 100000,
     category: 'Cơm',
     image:
-      'https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1200&auto=format&fit=crop',
+      'https://images.squarespace-cdn.com/content/v1/5a4e8d74e9bfdf1654dbeddc/1519067852101-H0CERNVMYTL3IL0OFVGT/pan+sear+salmon+cast+iron.jpg',
   },
   {
     id: 5,
@@ -55,7 +55,7 @@ const foods = [
     price: 45000,
     category: 'Cơm',
     image:
-      'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop',
+      'https://cdn.tgdd.vn/2021/02/CookProduct/1-1200x676-51.jpg',
   },
   {
     id: 7,
@@ -64,7 +64,7 @@ const foods = [
     price: 50000,
     category: 'Bún',
     image:
-      'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?q=80&w=1200&auto=format&fit=crop',
+      'https://monngonmoingay.com/wp-content/uploads/2018/08/bun-bo-gio-heo-500-min.jpg',
   },
   {
     id: 8,
