@@ -1,98 +1,101 @@
 // @ts-nocheck
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState } from "react";
 
-const ZALO_PHONE = '84766666133';
+const ZALO_PHONE = "0766666133";
 
 const foods = [
   {
     id: 1,
-    name: 'Cơm Gà Xào Hành Tây',
-    desc: 'Ức gà xào hành tây, cơm trắng, rau củ.',
+    name: "Cơm Gà Xào Hành Tây",
+    desc: "Ức gà xào hành tây, cơm trắng, rau củ.",
     price: 45000,
-    category: 'Cơm',
+    category: "Cơm",
     image:
-      'https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1200&auto=format&fit=crop',
+      "https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: 2,
-    name: 'Cơm Bò Xào Rau',
-    desc: 'Bò xào rau củ tổng hợp, cơm trắng.',
+    name: "Cơm Bò Xào Rau",
+    desc: "Bò xào rau củ tổng hợp, cơm trắng.",
     price: 45000,
-    category: 'Cơm',
+    category: "Cơm",
     image:
-      'https://namviethathanh.com/wp-content/uploads/2019/05/11.C%C6%A1m-b%C3%B2-x%C3%A0o-70k-scaled.jpg',
+      "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: 3,
-    name: 'Cơm Canh Khổ Qua',
-    desc: 'Canh khổ qua nhồi thịt, cơm trắng.',
+    name: "Cơm Canh Khổ Qua",
+    desc: "Canh khổ qua nhồi thịt, cơm trắng.",
     price: 45000,
-    category: 'Canh',
+    category: "Canh",
     image:
-      'https://vnn-imgs-a1.vgcloud.vn/znews-photo.zadn.vn/Uploaded/psixbp_dpcweiz3/2020_12_28/canh_kho_qua_don_thit.jpg?width=260&s=qUp7HbClYB9V9yi22WT0cw',
+      "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: 4,
-    name: 'Cơm Cá Hồi Áp Chảo',
-    desc: 'Cá hồi áp chảo, cơm trắng, rau củ.',
+    name: "Cơm Cá Hồi Áp Chảo",
+    desc: "Cá hồi áp chảo, cơm trắng, rau củ.",
     price: 100000,
-    category: 'Cơm',
+    category: "Cơm",
     image:
-      'https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1200&auto=format&fit=crop',
+      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: 5,
-    name: 'Cơm Trứng Chiên Thịt Bằm',
-    desc: 'Trứng chiên thịt bằm, cơm trắng, rau củ.',
+    name: "Cơm Trứng Chiên Thịt Bằm",
+    desc: "Trứng chiên thịt bằm, cơm trắng, rau củ.",
     price: 35000,
-    category: 'Cơm',
+    category: "Cơm",
     image:
-      'https://cdn2.fptshop.com.vn/unsafe/Uploads/images/tin-tuc/173813/Originals/cach-lam-trung-chien-thit-bam-5.jpg',
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: 6,
-    name: 'Cơm Thịt Heo Luộc',
-    desc: 'Thịt heo luộc, cơm trắng, rau sống, chấm mắm.',
+    name: "Cơm Thịt Heo Luộc",
+    desc: "Thịt heo luộc, cơm trắng, rau sống, chấm mắm.",
     price: 45000,
-    category: 'Cơm',
+    category: "Cơm",
     image:
-      'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop',
+      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: 7,
-    name: 'Bún Bò',
-    desc: 'Chỉ bán vào thứ 4 hằng tuần.',
+    name: "Bún Bò",
+    desc: "Chỉ bán vào thứ 4 hằng tuần.",
     price: 50000,
-    category: 'Bún',
+    category: "Bún",
     image:
-      'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?q=80&w=1200&auto=format&fit=crop',
+      "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: 8,
-    name: 'Nước Cam Ép Tươi',
-    desc: 'Nước cam ép nguyên chất 100%.',
+    name: "Nước Cam Ép Tươi",
+    desc: "Nước cam ép nguyên chất 100%.",
     price: 15000,
-    category: 'Nước',
+    category: "Nước",
     image:
-      'https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=1200&auto=format&fit=crop',
+      "https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
-function money(n) {
-  return new Intl.NumberFormat('vi-VN').format(n) + 'đ';
+function money(value) {
+  return new Intl.NumberFormat("vi-VN").format(value) + "đ";
 }
 
 export default function App() {
-  const [category, setCategory] = useState('Tất cả');
+  const [category, setCategory] = useState("Tất cả");
   const [cart, setCart] = useState([]);
   const [openCart, setOpenCart] = useState(false);
+  const [notice, setNotice] = useState("");
 
-  const categories = ['Tất cả', 'Cơm', 'Canh', 'Bún', 'Nước'];
+  const categories = ["Tất cả", "Cơm", "Canh", "Bún", "Nước"];
 
   const shownFoods =
-    category === 'Tất cả'
+    category === "Tất cả"
       ? foods
       : foods.filter((food) => food.category === category);
+
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
 
   const total = useMemo(() => {
     return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
@@ -111,7 +114,11 @@ export default function App() {
       return [...old, { ...food, qty: 1 }];
     });
 
-    setOpenCart(true);
+    setNotice("Đã thêm " + food.name + " vào giỏ hàng");
+
+    setTimeout(() => {
+      setNotice("");
+    }, 1600);
   }
 
   function changeQty(id, amount) {
@@ -127,27 +134,32 @@ export default function App() {
   }
 
   function sendZalo() {
-    const text =
-      "Xin chào Gánh Tạp Hoá Chú Hiếu, tôi muốn đặt món:\n\n" +
-      cart
-        .map(
-          (item) =>
-            "- " +
-            item.name +
-            " x" +
-            item.qty +
-            " = " +
-            money(item.price * item.qty)
-        )
-        .join("\n") +
-      "\n\nTổng cộng: " +
-      money(total);
+    const lines = [
+      "Xin chào Gánh Tạp Hoá Chú Hiếu, tôi muốn đặt món:",
+      "",
+      ...cart.map(
+        (item) =>
+          "- " +
+          item.name +
+          " x" +
+          item.qty +
+          ": " +
+          money(item.price * item.qty)
+      ),
+      "",
+      "Tổng cộng: " + money(total),
+      "",
+      "Thanh toán chuyển khoản:",
+      "HD Bank - VU MINH HIEU",
+      "STK: 0982728880",
+      "Vui lòng gửi bill sau khi chuyển khoản."
+    ];
+  
+    const text = lines.join("\n");
   
     navigator.clipboard.writeText(text);
   
-    alert(
-      "Đã copy đơn hàng. Bấm OK để mở Zalo, sau đó dán đơn hàng vào chat."
-    );
+    alert("Đã copy đơn hàng. Bấm OK để mở Zalo.");
   
     window.location.href = "https://zalo.me/0766666133";
   }
@@ -161,7 +173,7 @@ export default function App() {
         </div>
 
         <button style={s.cartButton} onClick={() => setOpenCart(true)}>
-          🛒 Giỏ hàng ({cart.reduce((sum, item) => sum + item.qty, 0)})
+          🛒 Giỏ hàng ({totalQty})
         </button>
       </header>
 
@@ -175,10 +187,7 @@ export default function App() {
           <button
             key={item}
             onClick={() => setCategory(item)}
-            style={{
-              ...s.tab,
-              ...(category === item ? s.activeTab : {}),
-            }}
+            style={{ ...s.tab, ...(category === item ? s.activeTab : {}) }}
           >
             {item}
           </button>
@@ -207,18 +216,27 @@ export default function App() {
         ))}
       </main>
 
+      {notice && <div style={s.notice}>{notice}</div>}
+
       {openCart && (
         <div style={s.overlay}>
           <div style={s.cart}>
             <div style={s.cartTop}>
-              <h2>Giỏ hàng</h2>
+              <h2 style={{ margin: 0 }}>Giỏ hàng</h2>
               <button style={s.close} onClick={() => setOpenCart(false)}>
                 ✕
               </button>
             </div>
 
             <div style={s.cartList}>
-              {cart.length === 0 && <p>Giỏ hàng đang trống.</p>}
+              {cart.length === 0 && (
+                <div style={s.emptyCart}>
+                  <p>Giỏ hàng đang trống.</p>
+                  <button style={s.backButton} onClick={() => setOpenCart(false)}>
+                    Tiếp tục chọn món
+                  </button>
+                </div>
+              )}
 
               {cart.map((item) => (
                 <div key={item.id} style={s.cartItem}>
@@ -228,10 +246,14 @@ export default function App() {
                     <h4 style={s.cartName}>{item.name}</h4>
                     <p style={s.cartPrice}>{money(item.price)}</p>
 
-                    <div style={s.qty}>
-                      <button onClick={() => changeQty(item.id, -1)}>-</button>
-                      <span>{item.qty}</span>
-                      <button onClick={() => changeQty(item.id, 1)}>+</button>
+                    <div style={s.qtyRow}>
+                      <button style={s.qtyBtn} onClick={() => changeQty(item.id, -1)}>
+                        -
+                      </button>
+                      <span style={s.qtyText}>{item.qty}</span>
+                      <button style={s.qtyBtn} onClick={() => changeQty(item.id, 1)}>
+                        +
+                      </button>
                     </div>
                   </div>
 
@@ -248,20 +270,15 @@ export default function App() {
                   <span>Tổng cộng</span>
                   <b>{money(total)}</b>
                 </div>
-                <div style={s.qrBox}>
-                  <p style={s.qrTitle}>Quét mã để chuyển khoản</p>
 
-                  <img src="/qr.jpg" alt="QR chuyển khoản" style={s.qrImage} />
-
-                  <p style={s.bankText}>
-                    HD Bank - VU MINH HIEU
-                    <br />
-                    STK: 0982728880
-                  </p>
-                </div>
+                <div style={{ marginTop: 20, textAlign: "center" }}>
+  <p style={{ marginBottom: 12 }}>
+    Sau khi kiểm tra đơn hàng, bấm nút bên dưới để gửi đơn qua Zalo.
+  </p>
+</div>
 
                 <button style={s.zalo} onClick={sendZalo}>
-                  Copy đơn & mở Zalo
+                  Đặt qua Zalo
                 </button>
               </div>
             )}
@@ -274,44 +291,44 @@ export default function App() {
 
 const s = {
   page: {
-    minHeight: '100vh',
-    background: '#ed1b2f',
-    fontFamily: 'Arial, sans-serif',
+    minHeight: "100vh",
+    background: "#ed1b2f",
+    fontFamily: "Arial, sans-serif",
   },
   header: {
-    background: '#111',
-    color: 'white',
-    padding: '18px 28px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'sticky',
+    background: "#111",
+    color: "white",
+    padding: "18px 28px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    position: "sticky",
     top: 0,
     zIndex: 10,
   },
   logo: {
     margin: 0,
     fontSize: 24,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   subLogo: {
-    margin: '4px 0 0',
-    color: '#ffb3b3',
+    margin: "4px 0 0",
+    color: "#ffb3b3",
     letterSpacing: 3,
   },
   cartButton: {
-    background: '#ed1b2f',
-    color: 'white',
-    border: 'none',
+    background: "#ed1b2f",
+    color: "white",
+    border: "none",
     borderRadius: 999,
-    padding: '12px 18px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
+    padding: "12px 18px",
+    fontWeight: "bold",
+    cursor: "pointer",
   },
   hero: {
-    textAlign: 'center',
-    color: 'white',
-    padding: '55px 20px 30px',
+    textAlign: "center",
+    color: "white",
+    padding: "55px 20px 30px",
   },
   title: {
     fontSize: 46,
@@ -319,196 +336,235 @@ const s = {
     margin: 0,
   },
   subtitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   tabs: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     gap: 12,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     marginBottom: 30,
+    padding: "0 16px",
   },
   tab: {
-    border: '2px solid white',
-    background: 'transparent',
-    color: 'white',
+    border: "2px solid white",
+    background: "transparent",
+    color: "white",
     borderRadius: 999,
-    padding: '10px 18px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
+    padding: "10px 18px",
+    fontWeight: "bold",
+    cursor: "pointer",
   },
   activeTab: {
-    background: 'white',
-    color: '#ed1b2f',
+    background: "white",
+    color: "#ed1b2f",
   },
   grid: {
     maxWidth: 1200,
-    margin: '0 auto',
-    padding: '0 20px 60px',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    margin: "0 auto",
+    padding: "0 20px 60px",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
     gap: 22,
   },
   card: {
-    background: 'white',
+    background: "white",
     borderRadius: 22,
-    overflow: 'hidden',
-    boxShadow: '0 18px 35px rgba(0,0,0,0.18)',
+    overflow: "hidden",
+    boxShadow: "0 18px 35px rgba(0,0,0,0.18)",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 160,
-    objectFit: 'cover',
+    objectFit: "cover",
   },
   body: {
     padding: 18,
   },
   badge: {
-    background: '#ffe2e2',
-    color: '#ed1b2f',
-    padding: '6px 10px',
+    background: "#ffe2e2",
+    color: "#ed1b2f",
+    padding: "6px 10px",
     borderRadius: 999,
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   foodName: {
     fontSize: 20,
-    margin: '14px 0 8px',
+    margin: "14px 0 8px",
   },
   desc: {
-    color: '#666',
+    color: "#666",
     fontSize: 14,
     minHeight: 42,
   },
   bottom: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 16,
   },
   price: {
-    color: '#ed1b2f',
+    color: "#ed1b2f",
     fontSize: 20,
   },
   addButton: {
-    background: '#111',
-    color: 'white',
-    border: 'none',
+    background: "#111",
+    color: "white",
+    border: "none",
     borderRadius: 12,
-    padding: '10px 16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
+    padding: "10px 16px",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  notice: {
+    position: "fixed",
+    left: "50%",
+    bottom: 24,
+    transform: "translateX(-50%)",
+    background: "#111",
+    color: "white",
+    padding: "12px 18px",
+    borderRadius: 999,
+    zIndex: 200,
+    fontWeight: "bold",
   },
   overlay: {
-    position: 'fixed',
+    position: "fixed",
     inset: 0,
-    background: 'rgba(0,0,0,.5)',
-    display: 'flex',
-    justifyContent: 'flex-end',
+    background: "rgba(0,0,0,.55)",
+    display: "flex",
+    justifyContent: "flex-end",
     zIndex: 99,
   },
   cart: {
     width: 430,
-    maxWidth: '100%',
-    background: 'white',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    maxWidth: "100%",
+    background: "white",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
-  
   cartTop: {
-    background: '#111',
-    color: 'white',
+    background: "#111",
+    color: "white",
     padding: 20,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   close: {
-    background: 'transparent',
-    color: 'white',
-    border: 'none',
+    background: "transparent",
+    color: "white",
+    border: "none",
     fontSize: 24,
-    cursor: 'pointer',
+    cursor: "pointer",
   },
   cartList: {
     flex: 1,
     padding: 20,
-    overflowY: 'auto',
+    overflowY: "auto",
+  },
+  emptyCart: {
+    textAlign: "center",
+    paddingTop: 60,
+    color: "#555",
+  },
+  backButton: {
+    marginTop: 12,
+    border: "none",
+    borderRadius: 999,
+    background: "#ed1b2f",
+    color: "white",
+    padding: "12px 18px",
+    fontWeight: "bold",
+    cursor: "pointer",
   },
   cartItem: {
-    display: 'flex',
+    display: "flex",
     gap: 12,
-    borderBottom: '1px solid #eee',
+    borderBottom: "1px solid #eee",
     paddingBottom: 16,
     marginBottom: 16,
   },
   cartImg: {
     width: 72,
     height: 72,
-    objectFit: 'cover',
+    objectFit: "cover",
     borderRadius: 14,
   },
   cartName: {
     margin: 0,
   },
   cartPrice: {
-    color: '#ed1b2f',
-    fontWeight: 'bold',
+    color: "#ed1b2f",
+    fontWeight: "bold",
+    margin: "6px 0",
   },
-  qty: {
-    display: 'flex',
-    gap: 12,
-    alignItems: 'center',
+  qtyRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+  },
+  qtyBtn: {
+    width: 28,
+    height: 28,
+    border: "1px solid #ddd",
+    borderRadius: 8,
+    background: "white",
+    cursor: "pointer",
+  },
+  qtyText: {
+    minWidth: 22,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   remove: {
-    background: 'transparent',
-    color: '#ed1b2f',
-    border: 'none',
-    cursor: 'pointer',
+    background: "transparent",
+    color: "#ed1b2f",
+    border: "none",
+    cursor: "pointer",
   },
   cartBottom: {
     padding: 20,
-    borderTop: '1px solid #eee',
+    borderTop: "1px solid #eee",
   },
   total: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
     fontSize: 20,
-    marginBottom: 16,
-  },
-  zalo: {
-    width: '100%',
-    padding: 15,
-    borderRadius: 999,
-    border: 'none',
-    background: '#ed1b2f',
-    color: 'white',
-    fontWeight: 'bold',
-    cursor: 'pointer',
+    marginBottom: 14,
   },
   qrBox: {
-    background: '#fff',
+    background: "#fff4f4",
     padding: 12,
-    borderRadius: 12,
-    marginTop: 16,
-    textAlign: 'center',
+    borderRadius: 16,
+    marginBottom: 14,
+    textAlign: "center",
   },
-
   qrTitle: {
-    marginBottom: 10,
-    fontWeight: 'bold',
+    margin: "0 0 10px",
+    fontWeight: "bold",
   },
-
   qrImage: {
-    width: '100%',
-    maxWidth: '150px',
+    width: "100%",
+    maxWidth: "150px",
     borderRadius: 12,
   },
-
   bankText: {
     marginTop: 10,
     fontSize: 14,
     lineHeight: 1.6,
   },
+  zalo: {
+    width: "100%",
+    padding: 15,
+    borderRadius: 999,
+    border: "none",
+    background: "#ed1b2f",
+    color: "white",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
 };
+
