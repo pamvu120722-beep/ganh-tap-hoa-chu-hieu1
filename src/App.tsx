@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
 const ZALO_PHONE = '84766666133';
 
@@ -60,7 +60,7 @@ const foods = [
   {
     id: 7,
     name: 'Bún Bò',
-    desc: 'Chỉ bán vào thứ 4 hằng tuần.',
+    desc: 'Chỉ bán vào chủ nhật hằng tuần.',
     price: 50000,
     category: 'Bún',
     image:
@@ -83,9 +83,19 @@ function money(n) {
 
 export default function App() {
   const [category, setCategory] = useState('Tất cả');
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [openCart, setOpenCart] = useState(false);
   const [notice, setNotice] = useState("");
+  const [customerName, setCustomerName] = useState("");
+const [customerPhone, setCustomerPhone] = useState("");
+const [customerAddress, setCustomerAddress] = useState("");
+const [customerNote, setCustomerNote] = useState("");
+useEffect(() => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}, [cart]);
 
   const categories = ['Tất cả', 'Cơm', 'Canh', 'Bún', 'Nước'];
 
@@ -137,21 +147,38 @@ export default function App() {
 
   function sendZalo() {
     const text =
-      'Xin chào Gánh Tạp Hoá Chú Hiếu, tôi muốn đặt món:\n\n' +
-      cart
-        .map(
-          (item) =>
-            '- ' +
-            item.name +
-            ' x' +
-            item.qty +
-            ': ' +
-            money(item.price * item.qty)
-        )
-        .join('\n') +
-      '\n\nTổng cộng: ' +
-      money(total);
+  "====== DON HANG ======\n\n" +
 
+  "THONG TIN KHACH\n" +
+  "----------------------\n" +
+  "Ten: " + customerName + "\n" +
+  "SDT: " + customerPhone + "\n" +
+  "Dia chi: " + customerAddress + "\n" +
+  "Ghi chu: " +
+  (customerNote || "Khong co") +
+  "\n\n" +
+
+  "MON DA CHON\n" +
+  "----------------------\n" +
+
+  cart
+    .map(
+      (item, index) =>
+        (index + 1) +
+        ". " +
+        item.name +
+        "\n   x" +
+        item.qty +
+        " - " +
+        money(item.price * item.qty)
+    )
+    .join("\n\n") +
+
+  "\n\nTONG CONG\n" +
+  "----------------------\n" +
+  money(total) +
+
+  "\n\nVui long xac nhan don hang.";
     navigator.clipboard.writeText(text);
     window.open('https://zalo.me/' + ZALO_PHONE, '_blank');
     alert('Đã copy đơn hàng. Hãy dán vào Zalo và gửi cho quán nhé!');
@@ -226,7 +253,35 @@ export default function App() {
                 ✕
               </button>
             </div>
+            <div style={s.form}>
+  <input
+    style={s.input}
+    placeholder="Tên khách hàng"
+    value={customerName}
+    onChange={(e) => setCustomerName(e.target.value)}
+  />
 
+  <input
+    style={s.input}
+    placeholder="Số điện thoại"
+    value={customerPhone}
+    onChange={(e) => setCustomerPhone(e.target.value)}
+  />
+
+  <input
+    style={s.input}
+    placeholder="Địa chỉ giao hàng"
+    value={customerAddress}
+    onChange={(e) => setCustomerAddress(e.target.value)}
+  />
+
+  <textarea
+    style={s.textarea}
+    placeholder="Ghi chú thêm"
+    value={customerNote}
+    onChange={(e) => setCustomerNote(e.target.value)}
+  />
+</div>
             <div style={s.cartList}>
               {cart.length === 0 && <p>Giỏ hàng đang trống.</p>}
 
