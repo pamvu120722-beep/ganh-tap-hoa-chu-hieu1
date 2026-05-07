@@ -243,17 +243,11 @@ export default function App() {
                   <span>Tổng cộng</span>
                   <b>{money(total)}</b>
                 </div>
-                <div style={s.qrBox}>
-                  <p style={s.qrTitle}>Quét mã để chuyển khoản</p>
-
-                  <img src="/qr.jpg" alt="QR chuyển khoản" style={s.qrImage} />
-
-                  <p style={s.bankText}>
-                    HD Bank - VU MINH HIEU
-                    <br />
-                    STK: 0982728880
-                  </p>
-                </div>
+                <div style={{ marginTop: 20, textAlign: "center" }}>
+  <p style={{ marginBottom: 12 }}>
+    Sau khi kiểm tra đơn hàng, bấm nút bên dưới để gửi đơn qua Zalo.
+  </p>
+</div>
 
                 <button style={s.zalo} onClick={sendZalo}>
                   Copy đơn & mở Zalo
