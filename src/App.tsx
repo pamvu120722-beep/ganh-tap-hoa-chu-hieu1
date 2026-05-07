@@ -18,6 +18,7 @@ const foods = [
     desc: 'Bò xào rau củ tổng hợp, cơm trắng.',
     price: 45000,
     category: 'Cơm',
+    tag: "Best Seller",
     image:
       'https://namviethathanh.com/wp-content/uploads/2019/05/11.C%C6%A1m-b%C3%B2-x%C3%A0o-70k-scaled.jpg',
   },
@@ -36,6 +37,7 @@ const foods = [
     desc: 'Cá hồi áp chảo, cơm trắng, rau củ.',
     price: 100000,
     category: 'Cơm',
+    tag: "Best Seller",
     image:
       'https://images.squarespace-cdn.com/content/v1/5a4e8d74e9bfdf1654dbeddc/1519067852101-H0CERNVMYTL3IL0OFVGT/pan+sear+salmon+cast+iron.jpg',
   },
@@ -89,13 +91,37 @@ export default function App() {
   });
   const [openCart, setOpenCart] = useState(false);
   const [notice, setNotice] = useState("");
-  const [customerName, setCustomerName] = useState("");
-const [customerPhone, setCustomerPhone] = useState("");
-const [customerAddress, setCustomerAddress] = useState("");
-const [customerNote, setCustomerNote] = useState("");
-useEffect(() => {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}, [cart]);
+  const [distance, setDistance] = useState("duoi5");
+  const [customerName, setCustomerName] = useState(
+    localStorage.getItem("customerName") || ""
+  );
+  const [customerPhone, setCustomerPhone] = useState(
+    localStorage.getItem("customerPhone") || ""
+  );
+  const [customerAddress, setCustomerAddress] = useState(
+    localStorage.getItem("customerAddress") || ""
+  );
+  const [customerNote, setCustomerNote] = useState(
+    localStorage.getItem("customerNote") || ""
+  );
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    localStorage.setItem("customerName", customerName);
+    localStorage.setItem("customerPhone", customerPhone);
+    localStorage.setItem("customerAddress", customerAddress);
+    localStorage.setItem("customerNote", customerNote);
+  }, [customerName, customerPhone, customerAddress, customerNote]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+  
+    const hour = new Date().getHours();
+
+const isOpen = hour >= 10 && hour < 16;
+    return () => clearTimeout(timer);
+  }, []);
+  
 
   const categories = ['Tất cả', 'Cơm', 'Canh', 'Bún', 'Nước'];
 
@@ -123,7 +149,7 @@ useEffect(() => {
       return [...old, { ...food, qty: 1 }];
     });
   
-    setNotice(food.name + " đã thêm vào giỏ hàng");
+    setNotice("✅ Đã thêm " + food.name + " vào giỏ hàng");
   
     setTimeout(() => {
       setNotice("");
@@ -146,19 +172,23 @@ useEffect(() => {
   }
 
   function sendZalo() {
+    if (!customerName || !customerPhone || !customerAddress) {
+      alert("Vui lòng dán thông tin đơn hàng được lưu sẵn khi tự động chuyển Zalo.");
+      return;
+    }
     const text =
-  "====== DON HANG ======\n\n" +
+  "====== ĐƠN HÀNG ======\n\n" +
 
-  "THONG TIN KHACH\n" +
+  "THÔNG TIN KHÁCH\n" +
   "----------------------\n" +
-  "Ten: " + customerName + "\n" +
-  "SDT: " + customerPhone + "\n" +
-  "Dia chi: " + customerAddress + "\n" +
-  "Ghi chu: " +
+  "TÊN: " + customerName + "\n" +
+  "SĐT: " + customerPhone + "\n" +
+  "ĐỊA CHỈ: " + customerAddress + "\n" +
+  "GHI CHÚ: " +
   (customerNote || "Khong co") +
   "\n\n" +
 
-  "MON DA CHON\n" +
+  "MÓN ĐÃ CHỌN\n" +
   "----------------------\n" +
 
   cart
@@ -183,14 +213,51 @@ useEffect(() => {
     window.open('https://zalo.me/' + ZALO_PHONE, '_blank');
     alert('Đã copy đơn hàng. Hãy dán vào Zalo và gửi cho quán nhé!');
   }
+  if (loading) {
+    return (
+      <div style={s.page}>
+        <header style={s.header}>
+          <div>
+            <div style={s.skeletonLogo}></div>
+            <div style={s.skeletonSmall}></div>
+          </div>
+          <div style={s.skeletonButton}></div>
+        </header>
+  
+        <main style={s.grid}>
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} style={s.skeletonCard}>
+              <div style={s.skeletonImage}></div>
+              <div style={s.skeletonLine}></div>
+              <div style={s.skeletonLineShort}></div>
+              <div style={s.skeletonPrice}></div>
+            </div>
+          ))}
+        </main>
+      </div>
+    );
+  }
+  const hour = new Date().getHours();
 
+const isOpen = hour >= 8 && hour < 16;
   return (
     <div style={s.page}>
       <header style={s.header}>
-        <div>
-          <h1 style={s.logo}>Gánh Tạp Hoá Chú Hiếu</h1>
-          <p style={s.subLogo}>Healthy Food</p>
-        </div>
+      <div>
+  <h1 style={s.logo}>Gánh Tạp Hoá Chú Hiếu</h1>
+  <p style={s.subLogo}>Healthy Food</p>
+
+  <div
+  style={{
+    ...s.status,
+    color: isOpen ? "#7CFC00" : "#ffb3b3",
+  }}
+>
+  {isOpen
+    ? "🟢 Đang mở cửa • 10:00 - 16:00"
+    : "🔴 Đã đóng cửa • Mở lại lúc 10:00"}
+</div>
+</div>
 
         <button style={s.cartButton} onClick={() => setOpenCart(true)}>
           🛒 Giỏ hàng ({cart.reduce((sum, item) => sum + item.qty, 0)})
@@ -217,13 +284,22 @@ useEffect(() => {
         ))}
       </div>
 
+      
       <main style={s.grid}>
         {shownFoods.map((food) => (
           <div key={food.id} style={s.card}>
             <img src={food.image} alt={food.name} style={s.image} />
 
             <div style={s.body}>
-              <span style={s.badge}>{food.category}</span>
+            <div style={s.badgeRow}>
+  <span style={s.badge}>{food.category}</span>
+
+  {food.tag && (
+    <span style={s.hotBadge}>
+      🔥 {food.tag}
+    </span>
+  )}
+</div>
               <h3 style={s.foodName}>{food.name}</h3>
               <p style={s.desc}>{food.desc}</p>
 
@@ -253,7 +329,10 @@ useEffect(() => {
                 ✕
               </button>
             </div>
-            <div style={s.form}>
+          
+<div style={s.form}>
+  <h3 style={s.formTitle}>Thông tin giao hàng</h3>
+
   <input
     style={s.input}
     placeholder="Tên khách hàng"
@@ -274,10 +353,22 @@ useEffect(() => {
     value={customerAddress}
     onChange={(e) => setCustomerAddress(e.target.value)}
   />
+  <div style={s.distanceBox}>
+  <p style={s.distanceTitle}>Khoảng cách giao hàng</p>
+
+  <select
+    style={s.select}
+    value={distance}
+    onChange={(e) => setDistance(e.target.value)}
+  >
+    <option value="duoi5">Dưới 5km - Free Ship</option>
+    <option value="tren5">Trên 5km - Xác nhận qua Zalo</option>
+  </select>
+</div>
 
   <textarea
     style={s.textarea}
-    placeholder="Ghi chú thêm"
+    placeholder="Ghi chú thêm..."
     value={customerNote}
     onChange={(e) => setCustomerNote(e.target.value)}
   />
@@ -338,6 +429,154 @@ useEffect(() => {
 }
 
 const s = {
+  skeletonLogo: {
+    width: 220,
+    height: 24,
+    borderRadius: 8,
+    background: "rgba(255,255,255,0.18)",
+  },
+  
+  skeletonSmall: {
+    width: 130,
+    height: 14,
+    borderRadius: 8,
+    background: "rgba(255,255,255,0.14)",
+    marginTop: 10,
+  },
+  
+  skeletonButton: {
+    width: 130,
+    height: 42,
+    borderRadius: 999,
+    background: "rgba(255,255,255,0.16)",
+  },
+  
+  skeletonCard: {
+    background: "white",
+    borderRadius: 26,
+    overflow: "hidden",
+    paddingBottom: 20,
+  },
+  
+  skeletonImage: {
+    height: 220,
+    background: "#eee",
+  },
+  
+  skeletonLine: {
+    width: "70%",
+    height: 22,
+    borderRadius: 10,
+    background: "#eee",
+    margin: "20px 20px 0",
+  },
+  
+  skeletonLineShort: {
+    width: "45%",
+    height: 16,
+    borderRadius: 10,
+    background: "#eee",
+    margin: "14px 20px 0",
+  },
+  
+  skeletonPrice: {
+    width: 100,
+    height: 28,
+    borderRadius: 10,
+    background: "#eee",
+    margin: "28px 20px 0",
+  },
+  badgeRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
+  },
+
+  hotBadge: {
+    background: "#111",
+    color: "white",
+    padding: "6px 10px",
+    borderRadius: 999,
+    fontSize: 12,
+    fontWeight: "bold",
+    lineHeight: 1,
+  },
+  status: {
+    marginTop: 8,
+    fontSize: 13,
+    color: "#9ef01a",
+    fontWeight: 600,
+  },
+  form: {
+    padding: "14px 18px",
+    display: "grid",
+    gap: 8,
+    borderBottom: "1px solid #eee",
+    background: "#fafafa",
+  },
+  
+  formTitle: {
+    margin: "0 0 4px",
+    fontSize: 18,
+    color: "#111",
+  },
+  
+  input: {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    borderRadius: 10,
+    border: "1px solid #ddd",
+    fontSize: 14,
+  },
+  
+  textarea: {
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "10px 12px",
+    borderRadius: 10,
+    border: "1px solid #ddd",
+    fontSize: 14,
+    minHeight: 58,
+    resize: "vertical",
+  },
+  hero: {
+    height: 220,
+    borderRadius: 28,
+    overflow: "hidden",
+    marginBottom: 28,
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1400&auto=format&fit=crop')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  
+  heroOverlay: {
+    width: "100%",
+    height: "100%",
+    background:
+      "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45))",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  
+  heroTitle: {
+    color: "white",
+    fontSize: 36,
+    fontWeight: "900",
+    letterSpacing: 4,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  
+  heroText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "600",
+  },
   page: {
     minHeight: '100vh',
     background: '#ed1b2f',
@@ -415,54 +654,69 @@ const s = {
     gap: 22,
   },
   card: {
-    background: 'white',
-    borderRadius: 22,
-    overflow: 'hidden',
-    boxShadow: '0 18px 35px rgba(0,0,0,0.18)',
+    background: "#fff",
+    borderRadius: 26,
+    overflow: "hidden",
+    boxShadow: "0 12px 32px rgba(0,0,0,0.10)",
+    transition: "0.25s",
+    display: "flex",
+    flexDirection: "column",
+    minHeight: 500,
   },
   image: {
-    width: '100%',
-    height: 160,
-    objectFit: 'cover',
+    width: "100%",
+    height: 220,
+    objectFit: "cover",
   },
   body: {
-    padding: 18,
+    padding: 24,
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
   },
   badge: {
-    background: '#ffe2e2',
-    color: '#ed1b2f',
-    padding: '6px 10px',
+    background: "#ffe5e5",
+    color: "#d90429",
+    padding: "6px 12px",
     borderRadius: 999,
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: 13,
+    fontWeight: "700",
+    width: "fit-content",
   },
   foodName: {
-    fontSize: 20,
-    margin: '14px 0 8px',
+    fontSize: 30,
+    fontWeight: 700,
+    lineHeight: 1.25,
+    margin: '14px 0 10px',
+    color: '#111',
+    letterSpacing: '-0.5px',
   },
   desc: {
     color: '#666',
-    fontSize: 14,
-    minHeight: 42,
+    fontSize: 16,
+    lineHeight: 1.6,
+    marginBottom: 24,
   },
   bottom: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 16,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "auto",
   },
   price: {
-    color: '#ed1b2f',
-    fontSize: 20,
+    color: "#d90429",
+    fontSize: 26,
+    fontWeight: "900",
   },
   addButton: {
-    background: '#111',
-    color: 'white',
-    border: 'none',
-    borderRadius: 12,
-    padding: '10px 16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
+    border: "none",
+    background: "#111",
+    color: "white",
+    padding: "12px 22px",
+    borderRadius: 14,
+    fontWeight: "bold",
+    cursor: "pointer",
+    fontSize: 15,
   },
   overlay: {
     position: 'fixed',
@@ -473,7 +727,7 @@ const s = {
     zIndex: 99,
   },
   cart: {
-    width: 430,
+    width: "min(430px, 100vw)",
     maxWidth: '100%',
     background: 'white',
     height: '100%',
@@ -498,8 +752,9 @@ const s = {
   },
   cartList: {
     flex: 1,
-    padding: 20,
-    overflowY: 'auto',
+    padding: 18,
+    overflowY: "auto",
+    maxHeight: "45vh",
   },
   cartItem: {
     display: 'flex',
@@ -578,15 +833,16 @@ const s = {
   },
   notice: {
     position: "fixed",
-    bottom: 24,
-    left: "50%",
-    transform: "translateX(-50%)",
+    top: 20,
+    right: 20,
     background: "#111",
-    color: "#fff",
-    padding: "12px 18px",
-    borderRadius: 999,
+    color: "white",
+    padding: "14px 18px",
+    borderRadius: 16,
     zIndex: 9999,
     fontWeight: "bold",
+    boxShadow: "0 12px 32px rgba(0,0,0,0.35)",
+    border: "1px solid rgba(255,255,255,0.12)",
   },
   
 };
