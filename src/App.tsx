@@ -254,8 +254,8 @@ const isOpen = hour >= 8 && hour < 16;
   }}
 >
   {isOpen
-    ? "🟢 Đang mở cửa • 10:00 - 16:00"
-    : "🔴 Đã đóng cửa • Mở lại lúc 10:00"}
+    ? "🟢 Đang mở cửa • 08:00 - 16:00"
+    : "🔴 Đã đóng cửa • Mở lại lúc 08:00"}
 </div>
 </div>
 
